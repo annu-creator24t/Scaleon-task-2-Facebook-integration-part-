@@ -49,3 +49,8 @@ class FacebookComment(BaseModel):
     id: str
     message: str
     from_name: Optional[str] = None
+
+class FacebookReplyRequest(BaseModel):
+    comment_id: str
+    page_access_token: str
+    message: str

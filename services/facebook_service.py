@@ -52,7 +52,28 @@ class FacebookService:
         return response.json()
 
     def create_post(self, page_id: str, page_access_token: str, message: str):
-        url = f"https://graph.facebook.com/{page_id}/feed"
+        url = f"https://graph.facebook.com/{os.getenv('GRAPH_API_VERSION')}/{page_id}/feed"
+
+        data = {
+            "message": message,
+            "access_token": page_access_token
+        }
+
+        response = requests.post(url, data=data)
+        return response.json()
+
+    def get_comments(self, post_id: str, page_access_token: str):
+        url = f"https://graph.facebook.com/{os.getenv('GRAPH_API_VERSION')}/{post_id}/comments"
+
+        params = {
+            "access_token": page_access_token
+        }
+
+        response = requests.get(url, params=params)
+        return response.json()
+
+    def reply_to_comment(self, comment_id: str, page_access_token: str, message: str):
+        url = f"https://graph.facebook.com/{os.getenv('GRAPH_API_VERSION')}/{comment_id}/comments"
 
         data = {
             "message": message,
